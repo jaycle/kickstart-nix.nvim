@@ -1,0 +1,7 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "upstream"]
+	url = https://github.com/nix-community/kickstart-nix.nvim.git
+	fetch = +refs/heads/*:refs/remotes/upstream/*

@@ -1,3 +1,7 @@
+if not package.loaded['eyeliner'] then
+  return
+end
+
 if vim.g.did_load_eyeliner_plugin then
   return
 end

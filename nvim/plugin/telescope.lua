@@ -69,40 +69,38 @@ local function fuzzy_grep_current_file_type()
   grep_current_file_type(fuzzy_grep)
 end
 
-vim.keymap.set('n', '<leader>tp', function()
-  builtin.find_files()
-end, { desc = '[t]elescope find files - ctrl[p] style' })
-vim.keymap.set('n', '<M-p>', builtin.oldfiles, { desc = '[telescope] old files' })
-vim.keymap.set('n', '<C-g>', builtin.live_grep, { desc = '[telescope] live grep' })
-vim.keymap.set('n', '<leader>tf', fuzzy_grep, { desc = '[t]elescope [f]uzzy grep' })
-vim.keymap.set('n', '<M-f>', fuzzy_grep_current_file_type, { desc = '[telescope] fuzzy grep filetype' })
-vim.keymap.set('n', '<M-g>', live_grep_current_file_type, { desc = '[telescope] live grep filetype' })
-vim.keymap.set(
-  'n',
-  '<leader>t*',
-  grep_string_current_file_type,
-  { desc = '[t]elescope grep current string [*] in current filetype' }
-)
-vim.keymap.set('n', '<leader>*', builtin.grep_string, { desc = '[telescope] grep current string [*]' })
-vim.keymap.set('n', '<leader>tg', project_files, { desc = '[t]elescope project files [g]' })
-vim.keymap.set('n', '<leader>tc', builtin.quickfix, { desc = '[t]elescope quickfix list [c]' })
-vim.keymap.set('n', '<leader>tq', builtin.command_history, { desc = '[t]elescope command history [q]' })
-vim.keymap.set('n', '<leader>tl', builtin.loclist, { desc = '[t]elescope [l]oclist' })
-vim.keymap.set('n', '<leader>tr', builtin.registers, { desc = '[t]elescope [r]egisters' })
-vim.keymap.set('n', '<leader>tbb', builtin.buffers, { desc = '[t]elescope [b]uffers [b]' })
-vim.keymap.set(
-  'n',
-  '<leader>tbf',
-  builtin.current_buffer_fuzzy_find,
-  { desc = '[t]elescope current [b]uffer [f]uzzy find' }
-)
-vim.keymap.set('n', '<leader>td', builtin.lsp_document_symbols, { desc = '[t]elescope lsp [d]ocument symbols' })
-vim.keymap.set(
-  'n',
-  '<leader>to',
-  builtin.lsp_dynamic_workspace_symbols,
-  { desc = '[t]elescope lsp dynamic w[o]rkspace symbols' }
-)
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[f]ind [f]iles' })
+-- vim.keymap.set('n', '<M-p>', builtin.oldfiles, { desc = '[telescope] old files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[f]ind [g]rep' })
+-- vim.keymap.set('n', '<leader>fgf', fuzzy_grep, { desc = '[f]ile [g]rep [f]uzzy' })
+vim.keymap.set('n', '<leader>fb', function() return builtin.buffers({sort_lastused=true}) end, { desc = '[f]ind [b]uffers' })
+--vim.keymap.set('n', '<M-f>', fuzzy_grep_current_file_type, { desc = '[telescope] fuzzy grep filetype' })
+--vim.keymap.set('n', '<M-g>', live_grep_current_file_type, { desc = '[telescope] live grep filetype' })
+--vim.keymap.set(
+--  'n',
+--  '<leader>t*',
+--  grep_string_current_file_type,
+--  { desc = '[t]elescope grep current string [*] in current filetype' }
+--)
+--vim.keymap.set('n', '<leader>*', builtin.grep_string, { desc = '[telescope] grep current string [*]' })
+--vim.keymap.set('n', '<leader>tg', project_files, { desc = '[t]elescope project files [g]' })
+--vim.keymap.set('n', '<leader>tc', builtin.quickfix, { desc = '[t]elescope quickfix list [c]' })
+--vim.keymap.set('n', '<leader>tq', builtin.command_history, { desc = '[t]elescope command history [q]' })
+--vim.keymap.set('n', '<leader>tl', builtin.loclist, { desc = '[t]elescope [l]oclist' })
+--vim.keymap.set('n', '<leader>tr', builtin.registers, { desc = '[t]elescope [r]egisters' })
+--vim.keymap.set(
+--  'n',
+--  '<leader>tbf',
+--  builtin.current_buffer_fuzzy_find,
+--  { desc = '[t]elescope current [b]uffer [f]uzzy find' }
+--)
+--vim.keymap.set('n', '<leader>td', builtin.lsp_document_symbols, { desc = '[t]elescope lsp [d]ocument symbols' })
+--vim.keymap.set(
+--  'n',
+--  '<leader>to',
+--  builtin.lsp_dynamic_workspace_symbols,
+--  { desc = '[t]elescope lsp dynamic w[o]rkspace symbols' }
+--)
 
 telescope.setup {
   defaults = {
@@ -116,11 +114,12 @@ telescope.setup {
         ['<C-q>'] = actions.send_to_qflist,
         ['<C-l>'] = actions.send_to_loclist,
         -- ['<esc>'] = actions.close,
-        ['<C-s>'] = actions.cycle_previewers_next,
-        ['<C-a>'] = actions.cycle_previewers_prev,
+        -- ['<C-s>'] = actions.cycle_previewers_next,
+        -- ['<C-a>'] = actions.cycle_previewers_prev,
       },
       n = {
         q = actions.close,
+        ['<C-c>'] = actions.smart_send_to_qflist + actions.open_qflist,
       },
     },
     preview = {
