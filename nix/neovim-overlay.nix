@@ -40,8 +40,12 @@ with final.pkgs.lib; let
     cmp-nvim-lua # neovim lua API as completion source | https://github.com/hrsh7th/cmp-nvim-lua/
     cmp-cmdline # cmp command line suggestions
     cmp-cmdline-history # cmp command line history suggestions
+    conjure # Interactive programming | https://github.com/Olical/conjure
 
     nvim-tree-lua # Directory tree-view | https://github.com/nvim-tree/nvim-tree.lua
+
+    copilot-vim # Github Copilot |  https://github.com/github/copilot.vim/
+
 
     # git integration plugins
     diffview-nvim # https://github.com/sindrets/diffview.nvim/
