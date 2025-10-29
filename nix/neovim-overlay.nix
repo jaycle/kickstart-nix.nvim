@@ -10,6 +10,34 @@ with final.pkgs.lib; let
       version = src.lastModifiedDate;
     };
 
+  # First build parsley as a separate plugin
+  parsley-plugin = pkgs.vimUtils.buildVimPlugin {
+    pname = "parsley";
+    version = "2024-02-26";  # Use appropriate date
+    src = pkgs.fetchFromGitHub {
+      owner = "monkoose";
+      repo = "parsley";
+      rev = "c4100aa449bfa971dcfc56ffe4206ba034db08cc";
+      sha256 = "u/ys2WDEu4GxUHQCuGr6ZB4l47myQ+gd8m/AIS7qYBc=";
+    };
+    meta.homepage = "https://github.com/monkoose/parsley/";
+  };
+  
+  # Then build nvlime, explicitly setting its dependencies
+  nvlime-plugin = pkgs.vimUtils.buildVimPlugin {
+    pname = "nvlime";
+    version = "2024-12-07";
+    src = pkgs.fetchFromGitHub {
+      owner = "monkoose";
+      repo = "nvlime";
+      rev = "228e4fa8c7d10b1ed07b1649a63743613b77a828";
+      sha256 = "pX4kmiTzRrUFUqAYmuUuEN66R67WDxnwFi5ZmAWVKAc=";
+    };
+    meta.homepage = "https://github.com/monkoose/nvlime/";
+    dependencies = [ parsley-plugin ];
+    doCheck = false;  # Failing on nvlime.cmp
+  };
+
   # Make sure we use the pinned nixpkgs instance for wrapNeovimUnstable,
   # otherwise it could have an incompatible signature when applying this overlay.
   pkgs-wrapNeovim = inputs.nixpkgs.legacyPackages.${pkgs.system};
@@ -41,10 +69,13 @@ with final.pkgs.lib; let
     cmp-cmdline # cmp command line suggestions
     cmp-cmdline-history # cmp command line history suggestions
     conjure # Interactive programming | https://github.com/Olical/conjure
+    nvim-parinfer # Parentheses infer | https://github.com/gpanders/nvim-parinfer
+    nvim-paredit # Parentheses editing | https://github.com/julienvincent/nvim-paredit/
 
     nvim-tree-lua # Directory tree-view | https://github.com/nvim-tree/nvim-tree.lua
 
     copilot-vim # Github Copilot |  https://github.com/github/copilot.vim/
+    CopilotChat-nvim # Chat with Github Copilot | https://github.com/CopilotC-Nvim/CopilotChat.nvim
 
 
     # git integration plugins
@@ -80,6 +111,30 @@ with final.pkgs.lib; let
     # bleeding-edge plugins from flake inputs
     # (mkNvimPlugin inputs.wf-nvim "wf.nvim") # (example) keymap hints | https://github.com/Cassin01/wf.nvim
     which-key-nvim
+    parsley-plugin
+    nvlime-plugin
+    # (pkgs.vimUtils.buildVimPlugin {
+    #   pname = "parsley";
+    #   version = "2024-12-07";
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "monkoose";
+    #     repo = "parsley";
+    #     rev = "c4100aa449bfa971dcfc56ffe4206ba034db08cc";
+    #     sha256 = "u/ys2WDEu4GxUHQCuGr6ZB4l47myQ+gd8m/AIS7qYBc=";
+    #   };
+    #   meta.homepage = "https://github.com/monkoose/parsley/";
+    # })
+    # (pkgs.vimUtils.buildVimPlugin {
+    #     pname = "nvlime";
+    #     version = "2024-12-07";
+    #     src = pkgs.fetchFromGitHub {
+    #       owner = "monkoose";
+    #       repo = "nvlime";
+    #       rev = "228e4fa8c7d10b1ed07b1649a63743613b77a828";
+    #       sha256 = "pX4kmiTzRrUFUqAYmuUuEN66R67WDxnwFi5ZmAWVKAc=";
+    #     };
+    #     meta.homepage = "https://github.com/monkoose/nvlime/";
+    # })
   ];
 
   extraPackages = with pkgs; [

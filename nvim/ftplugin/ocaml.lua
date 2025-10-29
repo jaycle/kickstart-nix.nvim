@@ -10,4 +10,5 @@ vim.lsp.start {
   name = 'ocamllsp',
   cmd = { ocaml_ls_cmd },
 }
+
 -- require'lspconfig'.ocamllsp.setup{}
